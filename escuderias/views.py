@@ -32,8 +32,17 @@ def listado(request):
 def administrar_escuderias(request):
     escuderias = Escuderia.objects.all()
 
+    busqueda = request.GET.get('q', '').strip()
+
+    if busqueda:
+        escuderias = escuderias.filter(
+            Q(nombre__icontains=busqueda) |
+            Q(pais__icontains=busqueda)
+        )
+
     return render(request, 'escuderias/administrar_escuderias.html', {
-        'escuderias': escuderias
+        'escuderias': escuderias,
+        'busqueda': busqueda
     })
 
 

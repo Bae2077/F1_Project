@@ -27,18 +27,20 @@
     </div>
 </form>
 
-{% if user.is_staff %}
+{% if perms.escuderias.add_escuderia or perms.escuderias.view_escuderia %}
 <div class="d-flex gap-2 mb-4">
 
-    <a href="{% url 'admin:escuderias_escuderia_add' %}"
-        class="btn btn-success">
+    {% if perms.escuderias.add_escuderia %}
+    <a href="{% url 'crear_escuderia' %}" class="btn btn-success">
         + Agregar escudería
     </a>
+    {% endif %}
 
-    <a href="{% url 'admin:escuderias_escuderia_changelist' %}"
-        class="btn btn-outline-light">
+    {% if perms.escuderias.view_escuderia %}
+    <a href="{% url 'administrar_escuderias' %}" class="btn btn-outline-light">
         Administrar escuderías
     </a>
+    {% endif %}
 
 </div>
 {% endif %}
@@ -84,18 +86,26 @@
 </ul>
 
                 <p class="card-text small text-secondary mt-auto">{{ escuderia.informacion }}</p>
-                {% if user.is_staff %}
+{% if perms.escuderias.change_escuderia or perms.escuderias.delete_escuderia %}
 <div class="d-flex gap-2 justify-content-center mt-3">
 
-    <a href="{% url 'admin:escuderias_escuderia_change' escuderia.id %}"
+    {% if perms.escuderias.change_escuderia %}
+    <a href="{% url 'editar_escuderia' escuderia.id %}"
         class="btn btn-warning btn-sm">
         Modificar
     </a>
+    {% endif %}
 
-    <a href="{% url 'admin:escuderias_escuderia_delete' escuderia.id %}"
-        class="btn btn-danger btn-sm">
-        Eliminar
-    </a>
+    {% if perms.escuderias.delete_escuderia %}
+    <form method="POST" action="{% url 'eliminar_escuderia' escuderia.id %}">
+        {% csrf_token %}
+        <button type="submit"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('¿Seguro que deseas eliminar esta escudería?')">
+            Eliminar
+        </button>
+    </form>
+    {% endif %}
 
 </div>
 {% endif %}

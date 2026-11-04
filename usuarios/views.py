@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from .forms import UsuarioForm
+from usuarios.decorators import permiso_requerido
 
 def obtener_perfil(usuario):
     if usuario.groups.filter(name='Administrador').exists():
@@ -52,4 +53,22 @@ def dashboard(request):
 
     return render(request, 'usuarios/dashboard.html', {
         'perfil': perfil
+    })
+
+@permiso_requerido('auth.add_user')
+def crear_usuario(request):
+
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Usuario creado correctamente.')
+            return redirect('crear_usuario')
+
+    else:
+        form = UsuarioForm()
+
+    return render(request, 'usuarios/crear_usuario.html', {
+        'form': form
     })

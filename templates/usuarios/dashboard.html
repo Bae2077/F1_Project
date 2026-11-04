@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Panel de usuario | F1 Hub{% endblock %}
@@ -15,6 +16,7 @@
 
     <div class="row g-4">
 
+        <!-- Información del perfil -->
         <div class="col-md-6 col-lg-4">
             <div class="card bg-black border-secondary h-100">
                 <div class="card-body">
@@ -26,6 +28,119 @@
                 </div>
             </div>
         </div>
+
+        {% if perfil == 'Administrador' %}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Gestión de usuarios</h5>
+                        <p class="text-light">
+                            Crear usuarios y asignar perfiles.
+                        </p>
+                        <a href="{% url 'crear_usuario' %}"
+                            class="btn btn-outline-danger">
+                            Administrar usuarios
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Gestión de pilotos</h5>
+                        <p class="text-light">
+                            Administrar los pilotos registrados.
+                        </p>
+                        <a href="{% url 'administrar_pilotos' %}"
+                            class="btn btn-outline-danger">
+                            Administrar pilotos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Gestión de escuderías</h5>
+                        <p class="text-light">
+                            Administrar las escuderías registradas.
+                        </p>
+                        <a href="{% url 'administrar_escuderias' %}"
+                            class="btn btn-outline-danger">
+                            Administrar escuderías
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif perfil == 'Supervisor' %}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Gestión de pilotos</h5>
+                        <p class="text-light">
+                            Crear, editar, buscar y eliminar pilotos.
+                        </p>
+                        <a href="{% url 'administrar_pilotos' %}"
+                            class="btn btn-outline-danger">
+                            Administrar pilotos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Gestión de escuderías</h5>
+                        <p class="text-light">
+                            Crear, editar, buscar y eliminar escuderías.
+                        </p>
+                        <a href="{% url 'administrar_escuderias' %}"
+                            class="btn btn-outline-danger">
+                            Administrar escuderías
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif perfil == 'Administrativo' %}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Consultar pilotos</h5>
+                        <p class="text-light">
+                            Revisar la información de los pilotos.
+                        </p>
+                        <a href="{% url 'pilotos_listado' %}"
+                            class="btn btn-outline-danger">
+                            Ver pilotos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card bg-black border-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="text-danger">Consultar escuderías</h5>
+                        <p class="text-light">
+                            Revisar la información de las escuderías.
+                        </p>
+                        <a href="{% url 'escuderias_listado' %}"
+                            class="btn btn-outline-danger">
+                            Ver escuderías
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
 
         <div class="col-md-6 col-lg-4">
             <div class="card bg-black border-secondary h-100">
@@ -43,6 +158,5 @@
         </div>
 
     </div>
-
 </div>
 {% endblock %}

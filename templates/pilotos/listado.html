@@ -27,18 +27,20 @@
     </div>
 </form>
 
-{% if user.is_staff %}
+{% if perms.pilotos.add_piloto or perms.pilotos.view_piloto %}
 <div class="d-flex gap-2 mb-4">
 
-    <a href="{% url 'admin:pilotos_piloto_add' %}"
-        class="btn btn-success">
+    {% if perms.pilotos.add_piloto %}
+    <a href="{% url 'crear_piloto' %}" class="btn btn-success">
         + Agregar piloto
     </a>
+    {% endif %}
 
-    <a href="{% url 'admin:pilotos_piloto_changelist' %}"
-        class="btn btn-outline-light">
+    {% if perms.pilotos.view_piloto %}
+    <a href="{% url 'administrar_pilotos' %}" class="btn btn-outline-light">
         Administrar pilotos
     </a>
+    {% endif %}
 
 </div>
 {% endif %}
@@ -85,18 +87,26 @@
                     </small>
                 </div>
 
-{% if user.is_staff %}
+{% if perms.pilotos.change_piloto or perms.pilotos.delete_piloto %}
 <div class="d-flex gap-2 justify-content-center mt-3">
 
-    <a href="{% url 'admin:pilotos_piloto_change' participacion.piloto.id %}"
+    {% if perms.pilotos.change_piloto %}
+    <a href="{% url 'editar_piloto' participacion.piloto.id %}"
         class="btn btn-warning btn-sm">
         Modificar
     </a>
+    {% endif %}
 
-    <a href="{% url 'admin:pilotos_piloto_delete' participacion.piloto.id %}"
-        class="btn btn-danger btn-sm">
-        Eliminar
-    </a>
+    {% if perms.pilotos.delete_piloto %}
+    <form method="POST" action="{% url 'eliminar_piloto' participacion.piloto.id %}">
+        {% csrf_token %}
+        <button type="submit"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('¿Seguro que deseas eliminar este piloto?')">
+            Eliminar
+        </button>
+    </form>
+    {% endif %}
 
 </div>
 {% endif %}

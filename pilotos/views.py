@@ -74,11 +74,15 @@ def detalle_temporada(request, anio):
 def administrar_pilotos(request):
     pilotos = Piloto.objects.all()
 
-    return render(
-        request,
-        'pilotos/administrar_pilotos.html',
-        {'pilotos': pilotos}
-    )
+    busqueda = request.GET.get('q', '').strip()
+
+    if busqueda:
+        pilotos = pilotos.filter(nombre__icontains=busqueda)
+
+    return render(request, 'pilotos/administrar_pilotos.html', {
+        'pilotos': pilotos,
+        'busqueda': busqueda
+    })
 
 
 @permiso_requerido('pilotos.add_piloto')
