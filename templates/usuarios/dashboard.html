@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de usuario | F1 Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="mb-4">
+        <h1 class="text-danger">Panel de {{ perfil }}</h1>
+        <p class="text-secondary">
+            Bienvenido, {{ request.user.username }}.
+            Has iniciado sesión correctamente.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card bg-black border-secondary h-100">
+                <div class="card-body">
+                    <h5 class="text-danger">Tu perfil</h5>
+                    <p class="text-light">{{ perfil }}</p>
+                    <p class="text-secondary">
+                        Este es tu nivel de acceso dentro de F1 Hub.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card bg-black border-secondary h-100">
+                <div class="card-body">
+                    <h5 class="text-danger">F1 Hub</h5>
+                    <p class="text-light">
+                        Explora pilotos, escuderías y temporadas.
+                    </p>
+                    <a href="{% url 'pilotos_inicio' %}"
+                        class="btn btn-outline-danger">
+                        Ir al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

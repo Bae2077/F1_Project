@@ -1,0 +1,69 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Administrar pilotos</h2>
+
+        <a href="{% url 'crear_piloto' %}" class="btn btn-danger">
+            Registrar piloto
+        </a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Nacionalidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for piloto in pilotos %}
+                    <tr>
+                        <td>{{ piloto.nombre }}</td>
+                        <td>{{ piloto.nacionalidad }}</td>
+                        <td>
+                            <a href="{% url 'editar_piloto' piloto.id %}"
+                                class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+
+                            <form method="POST"
+                                    action="{% url 'eliminar_piloto' piloto.id %}"
+                                    class="d-inline">
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Seguro que deseas eliminar este piloto?')">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            No hay pilotos registrados.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

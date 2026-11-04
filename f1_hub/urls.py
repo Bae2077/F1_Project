@@ -7,4 +7,5 @@ urlpatterns = [
     path('', lambda request: redirect('pilotos_inicio')),
     path('pilotos/', include('pilotos.urls')),
     path('escuderias/', include('escuderias.urls')),
+    path('usuarios/', include('usuarios.urls')),
 ]

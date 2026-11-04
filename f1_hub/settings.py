@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pilotos',
     'escuderias',
+    'usuarios',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+LOGIN_URL = 'usuarios_login'

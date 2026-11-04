@@ -33,16 +33,14 @@
 
 {% if user.is_authenticated %}
 
-    {% if user.is_staff %}
-        <a class="nav-link text-danger fw-bold me-1"
-        href="{% url 'admin:index' %}">
-            Administración
-        </a>
-    {% endif %}
+    <a class="nav-link text-danger fw-bold me-1"
+        href="{% url 'usuarios_dashboard' %}">
+        Mi panel
+    </a>
 
     <form method="post"
-        action="{% url 'admin:logout' %}"
-        class="d-inline">
+            action="{% url 'usuarios_logout' %}"
+            class="d-inline">
         {% csrf_token %}
 
         <button type="submit"
@@ -54,7 +52,7 @@
 {% else %}
 
     <a class="nav-link text-light"
-        href="{% url 'admin:login' %}?next=/">
+        href="{% url 'usuarios_login' %}">
         Iniciar sesión
     </a>
 
