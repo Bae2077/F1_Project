@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro | F1 Hub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card bg-black text-light border-secondary shadow">
+                <div class="card-body p-4">
+
+                    <h2 class="text-center text-danger mb-4">
+                        Crear cuenta
+                    </h2>
+
+                    <p class="text-center text-secondary mb-4">
+                        Regístrate para acceder a F1 Hub.
+                    </p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {{ form.non_field_errors }}
+
+                        {% for campo in form %}
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    {{ campo.label }}
+                                </label>
+
+                                {{ campo }}
+
+                                {% if campo.errors %}
+                                    <div class="text-danger small">
+                                        {{ campo.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-danger w-100">
+                            Registrarme
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <span class="text-secondary">
+                            ¿Ya tienes una cuenta?
+                        </span>
+                        <a href="{% url 'usuarios_login' %}" class="text-danger">
+                            Inicia sesión
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

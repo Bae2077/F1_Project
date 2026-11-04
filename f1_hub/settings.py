@@ -145,14 +145,22 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-# Configuración de correo para pruebas
+# Configuración de correo Gmail
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS': {
+            'host': os.getenv('EMAIL_HOST'),
+            'port': int(os.getenv('EMAIL_PORT', 587)),
+            'use_tls': True,
+            'username': os.getenv('EMAIL_HOST_USER'),
+            'password': os.getenv('EMAIL_HOST_PASSWORD'),
+        },
     },
 }
 
-DEFAULT_FROM_EMAIL = 'F1 Hub <noreply@f1hub.com>'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER if 'EMAIL_HOST_USER' in globals() else os.getenv('EMAIL_HOST_USER')
+PASSWORD_RESET_TIMEOUT = 3600
 PASSWORD_RESET_TIMEOUT = 3600
 
 LOGIN_URL = 'usuarios_login'

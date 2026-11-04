@@ -39,3 +39,31 @@ class UsuarioForm(UserCreationForm):
             usuario.groups.add(self.cleaned_data['perfil'])
 
         return usuario
+
+class RegistroUsuarioForm(UserCreationForm):
+
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for campo in self.fields:
+            self.fields[campo].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+    def save(self, commit=True):
+        usuario = super().save(commit=False)
+        usuario.email = self.cleaned_data['email']
+
+        if commit:
+            usuario.save()
+
+        return usuario

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UsuarioForm
+from .forms import UsuarioForm, RegistroUsuarioForm
 from usuarios.decorators import permiso_requerido
 from django.contrib.auth import get_user_model
 
@@ -84,4 +84,22 @@ def listar_usuarios(request):
 
     return render(request, 'usuarios/listar_usuarios.html', {
         'usuarios': usuarios
+    })
+
+def registrar_usuario(request):
+    if request.method == 'POST':
+        form = RegistroUsuarioForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Tu cuenta fue creada correctamente. Ya puedes iniciar sesión.'
+            )
+            return redirect('usuarios_login')
+    else:
+        form = RegistroUsuarioForm()
+
+    return render(request, 'usuarios/registrar_usuario.html', {
+        'form': form
     })
