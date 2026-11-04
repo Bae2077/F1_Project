@@ -30,7 +30,11 @@
                 <a class="nav-link text-light me-1" href="{% url 'escuderias_inicio' %}">Escuderías</a>
                 <a class="nav-link text-light me-1" href="{% url 'escuderias_listado' %}">Ver escuderías</a>
                 <a class="nav-link text-light me-1" href="{% url 'temporadas' %}">Temporadas</a>
-
+		{% if perms.pilotos.view_participacionpiloto %}
+    <a class="nav-link text-light me-1" href="{% url 'administrar_participaciones' %}">
+        Participaciones
+    </a>
+{% endif %}
 {% if user.is_authenticated %}
 
     <a class="nav-link text-danger fw-bold me-1"

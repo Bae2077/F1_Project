@@ -16,4 +16,10 @@ urlpatterns = [
     # Transacción: participaciones de pilotos
     path('participaciones/', views.administrar_participaciones, name='administrar_participaciones'),
     path('participaciones/crear/', views.crear_participacion, name='crear_participacion'),
+    path('participaciones/editar/<int:id>/', views.editar_participacion, name='editar_participacion'),
+    path('participaciones/eliminar/<int:id>/', views.eliminar_participacion, name='eliminar_participacion'),
+
+    path('temporadas/crear/', views.crear_temporada, name='crear_temporada'),
+    path('temporadas/editar/<int:id>/', views.editar_temporada, name='editar_temporada'),
+    path('temporadas/eliminar/<int:id>/', views.eliminar_temporada, name='eliminar_temporada'),
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Piloto, ParticipacionPiloto
+from .models import Piloto, ParticipacionPiloto, Temporada
 
 class PilotoForm(forms.ModelForm):
 
@@ -51,5 +51,21 @@ class ParticipacionPilotoForm(forms.ModelForm):
             }),
             'numero': forms.NumberInput(attrs={
                 'class': 'form-control'
+            }),
+        }
+
+class TemporadaForm(forms.ModelForm):
+
+    class Meta:
+        model = Temporada
+        fields = ['anio', 'descripcion']
+
+        widgets = {
+            'anio': forms.NumberInput(attrs={
+                'class': 'form-control'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4
             }),
         }

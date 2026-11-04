@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} | F1 Hub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">{{ titulo }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            Guardar
+        </button>
+
+        <a href="{% url 'temporadas' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}

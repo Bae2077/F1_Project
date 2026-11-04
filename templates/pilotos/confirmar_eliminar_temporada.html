@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar temporada | F1 Hub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2>Eliminar temporada</h2>
+
+    <p>
+        ¿Estás seguro de que deseas eliminar la temporada
+        <strong>{{ temporada.anio }}</strong>?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+            Sí, eliminar
+        </button>
+
+        <a href="{% url 'temporadas' %}" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UsuarioForm
 from usuarios.decorators import permiso_requerido
+from django.contrib.auth import get_user_model
 
 def obtener_perfil(usuario):
     if usuario.groups.filter(name='Administrador').exists():
@@ -71,4 +72,16 @@ def crear_usuario(request):
 
     return render(request, 'usuarios/crear_usuario.html', {
         'form': form
+    })
+
+@permiso_requerido('auth.view_user')
+def listar_usuarios(request):
+    User = get_user_model()
+    usuarios = User.objects.all().order_by('username')
+
+    for usuario in usuarios:
+        usuario.perfil = obtener_perfil(usuario)
+
+    return render(request, 'usuarios/listar_usuarios.html', {
+        'usuarios': usuarios
     })

@@ -40,18 +40,20 @@
     </div>
 </div>
 
-{% if user.is_staff %}
+{% if perms.pilotos.add_temporada or perms.pilotos.view_temporada %}
 <div class="d-flex gap-2 mb-4">
 
-    <a href="{% url 'admin:pilotos_temporada_add' %}"
-        class="btn btn-success">
+    {% if perms.pilotos.add_temporada %}
+    <a href="{% url 'crear_temporada' %}" class="btn btn-success">
         + Agregar temporada
     </a>
+    {% endif %}
 
-    <a href="{% url 'admin:pilotos_temporada_changelist' %}"
-        class="btn btn-outline-light">
+    {% if perms.pilotos.view_temporada %}
+    <a href="{% url 'temporadas' %}" class="btn btn-outline-light">
         Administrar temporadas
     </a>
+    {% endif %}
 
 </div>
 {% endif %}
@@ -81,21 +83,25 @@
         Ver temporada
     </a>
 
-    {% if user.is_staff %}
-    <div class="d-flex gap-2 justify-content-center mt-3">
+{% if perms.pilotos.change_temporada or perms.pilotos.delete_temporada %}
+<div class="d-flex gap-2 justify-content-center mt-3">
 
-        <a href="{% url 'admin:pilotos_temporada_change' temporada.id %}"
-            class="btn btn-warning btn-sm">
-            Modificar
-        </a>
-
-        <a href="{% url 'admin:pilotos_temporada_delete' temporada.id %}"
-            class="btn btn-outline-danger btn-sm">
-            Eliminar
-        </a>
-
-    </div>
+    {% if perms.pilotos.change_temporada %}
+    <a href="{% url 'editar_temporada' temporada.id %}"
+       class="btn btn-warning btn-sm">
+        Modificar
+    </a>
     {% endif %}
+
+    {% if perms.pilotos.delete_temporada %}
+    <a href="{% url 'eliminar_temporada' temporada.id %}"
+       class="btn btn-outline-danger btn-sm">
+        Eliminar
+    </a>
+    {% endif %}
+
+</div>
+{% endif %}
 
 </div>
 
