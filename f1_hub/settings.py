@@ -147,10 +147,14 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+# Configuración de correo para pruebas
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+DEFAULT_FROM_EMAIL = 'F1 Hub <noreply@f1hub.com>'
+PASSWORD_RESET_TIMEOUT = 3600
 
 LOGIN_URL = 'usuarios_login'

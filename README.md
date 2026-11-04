@@ -2,24 +2,41 @@
 
 Aplicación web desarrollada con **Django** que permite consultar y administrar información relacionada con la Fórmula 1, incluyendo pilotos, escuderías y temporadas.
 
-El proyecto corresponde a la **Evaluación Sumativa N.º 2 de Programación Back End** y representa la evolución de una aplicación que inicialmente utilizaba archivos JSON hacia un sistema con persistencia en una base de datos relacional.
+El proyecto corresponde a la evolución de una aplicación desarrollada inicialmente para la Evaluación Sumativa N.º 2 de Programación Back End, incorporando nuevas funcionalidades de autenticación, gestión de usuarios, permisos y administración personalizada de datos para la Evaluación Sumativa N.º 3.
 
 ## Funcionalidades
 
 - Visualización de pilotos y escuderías mediante tarjetas Bootstrap.
 - Búsqueda de pilotos y escuderías.
 - Selección y consulta de temporadas.
-- Administración de registros mediante Django Admin.
+- Mantenedores personalizados para pilotos y escuderías.
 - Operaciones CRUD: crear, consultar, modificar y eliminar registros.
 - Gestión de relaciones entre pilotos, escuderías y temporadas.
-- Acceso diferenciado para usuarios públicos y administradores.
+- Registro de participaciones de pilotos en distintas temporadas.
+- Inicio y cierre de sesión.
+- Creación y gestión de usuarios.
+- Recuperación de contraseñas mediante enlaces seguros.
+- Acceso diferenciado según el perfil del usuario.
+- Protección de vistas mediante permisos y autenticación.
+
+## Perfiles de usuario
+
+El sistema contempla tres perfiles con distintos niveles de acceso:
+
+| Perfil | Permisos principales |
+|---|---|
+| Administrador | Gestión de usuarios, pilotos y escuderías. |
+| Supervisor | Administración de pilotos y escuderías. |
+| Administrativo | Consulta de información sin permisos de modificación. |
+
+Cada perfil cuenta con un panel de usuario que presenta las opciones disponibles según sus permisos.
 
 ## Tecnologías utilizadas
 
 | Tecnología | Función |
 |---|---|
 | Python | Lenguaje de programación |
-| Django | Framework web y ORM |
+| Django | Framework web, autenticación y ORM |
 | HTML, CSS y Bootstrap | Interfaz de usuario |
 | SQLite | Base de datos para desarrollo local |
 | MariaDB | Base de datos relacional en AWS |
@@ -38,6 +55,7 @@ F1_Project/
 ├── f1_hub/
 ├── old_data/
 ├── pilotos/
+├── usuarios/
 ├── static/
 ├── templates/
 ├── manage.py
@@ -47,9 +65,9 @@ F1_Project/
 
 Las aplicaciones principales son:
 
-**pilotos:** administra la información de pilotos, temporadas y participaciones.
-
-**escuderias:** administra los equipos de Fórmula 1 y sus datos.
+- **pilotos:** administra la información de pilotos, temporadas y participaciones.
+- **escuderias:** administra los equipos de Fórmula 1 y sus datos.
+- **usuarios:** gestiona la autenticación, los perfiles, la creación de usuarios y la recuperación de contraseñas.
 
 ## Modelos de datos
 
@@ -60,7 +78,7 @@ El proyecto utiliza cuatro entidades principales:
 - **Temporada:** año y descripción.
 - **ParticipacionPiloto:** relaciona un piloto con una escudería durante una temporada e incluye su número de competición.
 
-Las relaciones se implementan mediante claves foráneas de Django ORM.
+Las relaciones se implementan mediante claves foráneas de Django ORM, permitiendo mantener la integridad de los datos y gestionar las participaciones entre entidades relacionadas.
 
 ## Instalación local
 
@@ -93,8 +111,6 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-En Windows, la instalación de `mysqlclient` puede requerir herramientas adicionales de compilación, aunque el desarrollo local utilice SQLite.
-
 ### 4. Configurar variables de entorno
 
 Crear un archivo `.env` en la raíz del proyecto:
@@ -105,7 +121,7 @@ DJANGO_DEBUG=True
 DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
 ```
 
-Por defecto, el proyecto utiliza SQLite si no se define `DB_NAME`.
+Por defecto, el proyecto utiliza SQLite si no se definen las variables de conexión a MariaDB.
 
 Para utilizar MariaDB, configurar también:
 
@@ -127,6 +143,8 @@ python manage.py migrate
 
 ### 6. Importar datos iniciales
 
+Si se dispone del conjunto de datos iniciales del proyecto:
+
 ```bash
 python manage.py importar_datos
 ```
@@ -139,13 +157,23 @@ python manage.py runserver
 
 Abrir `http://127.0.0.1:8000/` en el navegador.
 
-Para acceder a Django Admin, crear primero un superusuario:
+Para crear un usuario administrador inicial:
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Después visitar `/admin/`.
+## Recuperación de contraseñas
+
+El sistema incorpora el mecanismo de recuperación de contraseñas de Django, que permite:
+
+1. Solicitar la recuperación desde el inicio de sesión.
+2. Generar un enlace con un token de seguridad.
+3. Validar el enlace antes de permitir el cambio.
+4. Registrar una nueva contraseña.
+5. Confirmar que la contraseña fue actualizada correctamente.
+
+Durante las pruebas locales se utiliza el backend de correo por consola de Django, que permite visualizar los mensajes y enlaces generados directamente en la terminal. Para el envío real de correos se requiere configurar un servicio SMTP.
 
 ## Despliegue en AWS
 
@@ -185,6 +213,8 @@ Las soluciones propuestas fueron aplicadas y comprobadas mediante pruebas del pr
 
 ## Estado del proyecto
 
-La aplicación cuenta con visualización pública de datos, administración mediante Django Admin, persistencia relacional y despliegue en AWS EC2.
+F1 Hub cuenta con visualización pública de información, mantenedores personalizados, gestión de usuarios, autenticación, permisos diferenciados, recuperación de contraseñas y una transacción entre entidades relacionadas.
+
+El proyecto utiliza persistencia mediante una base de datos relacional y contempla su despliegue en infraestructura AWS EC2.
 
 Proyecto desarrollado con fines académicos para la asignatura **Programación Back End**.
